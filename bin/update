@@ -1,4 +1,4 @@
-#!/Users/jbhannah/.rbenv/shims/ruby
+#!/usr/bin/env ruby
 require 'fileutils'
 include FileUtils
 

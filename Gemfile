@@ -30,8 +30,12 @@ gem 'graphql', '~> 1.8'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'ruby-debug-ide', '>= 0.7.0.beta6'
+  gem 'debase', '>= 0.2.3.beta2'
   gem 'rspec-rails'
   gem 'factory_bot_rails'
+  gem 'shoulda-matchers', '>= 4.0.0.rc1'
+  gem 'rails-controller-testing'
 end
 
 group :development do
