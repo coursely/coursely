@@ -1,4 +1,4 @@
-class Types::UserTypes::CreateType < Types::BaseInputObject
+class Types::UserTypes::CreateUserType < Types::BaseInputObject
   description "User creation type"
 
   argument :name, String, required: true
