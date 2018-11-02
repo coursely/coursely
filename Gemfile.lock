@@ -50,6 +50,7 @@ GEM
     byebug (10.0.2)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
+    database_cleaner (1.7.0)
     debase (0.2.3.beta2)
       debase-ruby_core_source (>= 0.10.2)
     debase-ruby_core_source (0.10.3)
@@ -173,6 +174,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   byebug
+  database_cleaner (~> 1.7)
   debase (>= 0.2.3.beta2)
   factory_bot_rails
   graphql (~> 1.8)
