@@ -50,3 +50,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "database_cleaner", "~> 1.7", :group => :test
+
+gem "jwt_sessions", "~> 2.2"
