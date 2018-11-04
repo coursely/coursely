@@ -47,7 +47,7 @@ RSpec.describe Mutations::UserMutations::CreateUserMutation do
           "user" => nil,
           "errors" => [{
             "message" => "has already been taken",
-            "path" => ["attributes", "email"]
+            "path" => ["user", "email"]
           }]
         }
       }
@@ -63,7 +63,7 @@ RSpec.describe Mutations::UserMutations::CreateUserMutation do
           "user" => nil,
           "errors" => [{
             "message" => "doesn't match Password",
-            "path" => ["attributes", "password_confirmation"]
+            "path" => ["user", "password_confirmation"]
           }]
         }
       }

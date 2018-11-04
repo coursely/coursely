@@ -9,6 +9,6 @@ class Mutations::UserMutations::CreateUserMutation < Mutations::BaseMutation
       errors: []
     }
   rescue ActiveRecord::RecordInvalid => e
-    map_record_invalid_errors(e)
+    map_errors(e.record.errors, "user")
   end
 end

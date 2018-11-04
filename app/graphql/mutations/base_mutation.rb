@@ -3,10 +3,10 @@ class Mutations::BaseMutation < GraphQL::Schema::Mutation
 
   protected
 
-  def map_record_invalid_errors(e)
-    errors = e.record.errors.map do |attr, msg|
+  def map_errors(e, *path)
+    errors = e.map do |attr, msg|
       {
-        path: ["attributes", attr.to_s],
+        path: [*path, attr.to_s],
         message: msg
       }
     end
