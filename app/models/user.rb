@@ -4,4 +4,8 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
   validates :password, length: { minimum: 8 }, presence: true
+
+  def authenticate!(unencrypted_password)
+    authenticate(unencrypted_password) or raise InvalidCredentials
+  end
 end
