@@ -53,6 +53,7 @@ blocks:
           - cache restore bundle-$(checksum Gemfile.lock)
           - sem-service start postgres
           - sem-service start redis
+          - cp -f .semaphore/config/database.yml config/
           - bin/rails db:setup
       jobs:
         - name: RSpec
