@@ -1,0 +1,46 @@
+version: v1.0
+name: coursely
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: Setup
+    task:
+      jobs:
+        - name: Services
+          commands:
+            - sem-service start postgres
+            - sem-service start redis
+        - name: Dependencies
+          commands:
+            - sudo apt-get update
+            - sudo apt-get install -y -qq libpq-dev
+  - name: Install
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: bundle install
+          commands:
+            - cache restore bundler-$(checksum Gemfile.lock)
+            - bundle install --deployment
+            - cache store bundler-$(checksum Gemfile.lock) vendor/bundle
+            - bin/rails db:setup
+  - name: Tests
+    task:
+      env_vars:
+        - name: BUNDLE_PATH
+          value: vendor/bundle
+      secrets:
+        - name: rails-master-key
+      prologue:
+        commands:
+          - checkout
+          - cache restore bundler-$(checksum Gemfile.lock)
+      jobs:
+        - name: RSpec
+          commands:
+            - bin/rspec
