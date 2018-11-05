@@ -16,10 +16,8 @@ blocks:
           commands:
             - sem-service start postgres
             - sem-service start redis
-        - name: Dependencies
+        - name: Ruby
           commands:
-            - sudo apt-get update
-            - sudo apt-get install -y libpq-dev
             - rbenv install
   - name: Install
     task:
