@@ -1,7 +1,14 @@
-test:
+default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: coursely_test
   host: localhost
   username: postgres
+
+development:
+  <<: *default
+  database: coursely_development
+
+test:
+  <<: *default
+  database: coursely_test
