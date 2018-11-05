@@ -17,7 +17,7 @@ blocks:
             - export RUBY_VERSION=$(cat .ruby-version)
             - cd ~
             - cache restore ruby-$RUBY_VERSION
-            - rbenv install -s
+            - rbenv install -s $RUBY_VERSION
             - cache store ruby-$RUBY_VERSION .rbenv/versions/$RUBY_VERSION
   - name: Install
     task:
