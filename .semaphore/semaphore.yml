@@ -16,7 +16,8 @@ blocks:
         - name: Dependencies
           commands:
             - sudo apt-get update
-            - sudo apt-get install -y -qq libpq-dev
+            - sudo apt-get install -y libpq-dev
+            - rbenv install
   - name: Install
     task:
       prologue:
