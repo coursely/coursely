@@ -1,0 +1,61 @@
+version: v1.0
+name: coursely
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: Setup
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: Ruby
+          commands:
+            - export RUBY_VERSION=$(cat .ruby-version)
+            - cd ~ && cache restore ruby-$RUBY_VERSION && cd -
+            - rbenv install -s
+            - cache store ruby-$RUBY_VERSION ~/.rbenv/versions/$RUBY_VERSION
+  - name: Install
+    task:
+      prologue:
+        commands:
+          - checkout
+          - export RUBY_VERSION=$(cat .ruby-version)
+          - cd ~ && cache restore ruby-$RUBY_VERSION && cd -
+          - sem-version ruby $RUBY_VERSION
+          - gem install bundler --no-rdoc --no-ri
+      jobs:
+        - name: Bundle
+          commands:
+            - cache restore bundle-config-$(checksum .bundle/config)
+            - cache restore bundler-$(checksum Gemfile.lock)
+            - bundle install --deployment
+            - cache store bundle-$(checksum Gemfile.lock) vendor/bundle
+            - cache store bundle-config-$(checksum .bundle/config) .bundle/config
+  - name: Tests
+    task:
+      env_vars:
+        - name: BUNDLE_PATH
+          value: vendor/bundle
+      secrets:
+        - name: rails-master-key
+      prologue:
+        commands:
+          - checkout
+          - export RUBY_VERSION=$(cat .ruby-version)
+          - cd ~ && cache restore ruby-$RUBY_VERSION && cd -
+          - sem-version ruby $RUBY_VERSION
+          - gem install bundler --no-rdoc --no-ri
+          - cache restore bundle-config-$(checksum .bundle/config)
+          - cache restore bundle-$(checksum Gemfile.lock)
+          - sem-service start postgres
+          - sem-service start redis
+          - cp -f .semaphore/config/database.yml config/
+          - bin/rails db:setup
+      jobs:
+        - name: RSpec
+          commands:
+            - bin/rspec
