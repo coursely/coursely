@@ -45,7 +45,7 @@ blocks:
         commands:
           - checkout
           - export RUBY_VERSION=$(cat .ruby-version)
-          - cd ~ && cache restore ruby-$RUBY_VERSEION && cd -
+          - cd ~ && cache restore ruby-$RUBY_VERSION && cd -
           - sem-version ruby $RUBY_VERSION
           - cache restore bundler-$(checksum Gemfile.lock)
           - sem-service start postgres
