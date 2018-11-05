@@ -15,7 +15,6 @@ blocks:
         - name: Ruby
           commands:
             - rbenv install
-            - sem-version ruby $(cat .ruby-version)
         - name: Services
           commands:
             - sem-service start postgres
@@ -25,6 +24,7 @@ blocks:
       prologue:
         commands:
           - checkout
+          - sem-version ruby $(cat .ruby-version)
       jobs:
         - name: Bundle
           commands:
@@ -42,6 +42,7 @@ blocks:
       prologue:
         commands:
           - checkout
+          - sem-version ruby $(cat .ruby-version)
           - cache restore bundler-$(checksum Gemfile.lock)
       jobs:
         - name: RSpec
