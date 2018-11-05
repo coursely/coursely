@@ -6,24 +6,12 @@ agent:
     os_image: ubuntu1804
 
 blocks:
-  - name: Setup
-    task:
-      prologue:
-        commands:
-          - checkout
-      jobs:
-        - name: Ruby
-          commands:
-            - rbenv install
-        - name: Services
-          commands:
-            - sem-service start postgres
-            - sem-service start redis
   - name: Install
     task:
       prologue:
         commands:
           - checkout
+          - rbenv install
           - sem-version ruby $(cat .ruby-version)
       jobs:
         - name: Bundle
@@ -31,7 +19,6 @@ blocks:
             - cache restore bundler-$(checksum Gemfile.lock)
             - bundle install --deployment
             - cache store bundler-$(checksum Gemfile.lock) vendor/bundle
-            - bin/rails db:setup
   - name: Tests
     task:
       env_vars:
@@ -42,8 +29,12 @@ blocks:
       prologue:
         commands:
           - checkout
+          - rbenv install
           - sem-version ruby $(cat .ruby-version)
           - cache restore bundler-$(checksum Gemfile.lock)
+          - sem-service start postgres
+          - sem-service start redis
+          - bin/rails db:setup
       jobs:
         - name: RSpec
           commands:
