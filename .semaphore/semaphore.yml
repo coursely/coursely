@@ -27,6 +27,7 @@ blocks:
           - export RUBY_VERSION=$(cat .ruby-version)
           - cd ~ && cache restore ruby-$RUBY_VERSION && cd -
           - sem-version ruby $RUBY_VERSION
+          - gem install bundler --no-rdoc --no-ri
       jobs:
         - name: Bundle
           commands:
