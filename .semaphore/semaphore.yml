@@ -8,6 +8,9 @@ agent:
 blocks:
   - name: Setup
     task:
+      prologue:
+        commands:
+          - checkout
       jobs:
         - name: Services
           commands:
