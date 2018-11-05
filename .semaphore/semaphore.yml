@@ -30,9 +30,11 @@ blocks:
       jobs:
         - name: Bundle
           commands:
+            - cache restore bundle-config-$(checksum .bundle/config)
             - cache restore bundler-$(checksum Gemfile.lock)
             - bundle install --deployment
-            - cache store bundler-$(checksum Gemfile.lock) vendor/bundle
+            - cache store bundle-$(checksum Gemfile.lock) vendor/bundle
+            - cache store bundle-config-$(checksum .bundle/config) .bundle/config
   - name: Tests
     task:
       env_vars:
@@ -46,8 +48,9 @@ blocks:
           - export RUBY_VERSION=$(cat .ruby-version)
           - cd ~ && cache restore ruby-$RUBY_VERSION && cd -
           - sem-version ruby $RUBY_VERSION
-          - cache restore bundler-$(checksum Gemfile.lock)
           - gem install bundler --no-rdoc --no-ri
+          - cache restore bundle-config-$(checksum .bundle/config)
+          - cache restore bundle-$(checksum Gemfile.lock)
           - sem-service start postgres
           - sem-service start redis
           - bin/rails db:setup
