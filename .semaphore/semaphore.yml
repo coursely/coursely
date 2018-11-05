@@ -12,20 +12,20 @@ blocks:
         commands:
           - checkout
       jobs:
+        - name: Ruby
+          commands:
+            - sem-version ruby $(cat .ruby-version)
         - name: Services
           commands:
             - sem-service start postgres
             - sem-service start redis
-        - name: Ruby
-          commands:
-            - rbenv install
   - name: Install
     task:
       prologue:
         commands:
           - checkout
       jobs:
-        - name: bundle install
+        - name: Bundle
           commands:
             - cache restore bundler-$(checksum Gemfile.lock)
             - bundle install --deployment
