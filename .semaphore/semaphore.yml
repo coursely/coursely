@@ -26,11 +26,11 @@ blocks:
           - export RUBY_VERSION=$(cat .ruby-version)
           - cd ~ && cache restore ruby-$RUBY_VERSION && cd -
           - sem-version ruby $RUBY_VERSION
-          - cache restore bundler-$(checksum Gemfile.lock)
           - gem install bundler --no-rdoc --no-ri
       jobs:
         - name: Bundle
           commands:
+            - cache restore bundler-$(checksum Gemfile.lock)
             - bundle install --deployment
             - cache store bundler-$(checksum Gemfile.lock) vendor/bundle
   - name: Tests
