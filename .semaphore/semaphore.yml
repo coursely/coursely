@@ -6,14 +6,27 @@ agent:
     os_image: ubuntu1804
 
 blocks:
+  - name: Setup
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: Ruby
+          commands:
+            - export RUBY_VERSION=$(cat .ruby-version)
+            - cd ~
+            - cache restore ruby-$RUBY_VERSION
+            - rbenv install -s
+            - cache store ruby-$RUBY_VERSION .rbenv/versions/$RUBY_VERSION
   - name: Install
     task:
       prologue:
         commands:
           - checkout
-          - rbenv install
-          - sem-version ruby $(cat .ruby-version)
-          - gem install bundler
+          - export RUBY_VERSION=$(cat .ruby-version)
+          - cd ~ && cache restore ruby-$RUBY_VERSION && cd -
+          - sem-version ruby $RUBY_VERSION
       jobs:
         - name: Bundle
           commands:
@@ -30,8 +43,9 @@ blocks:
       prologue:
         commands:
           - checkout
-          - rbenv install
-          - sem-version ruby $(cat .ruby-version)
+          - export RUBY_VERSION=$(cat .ruby-version)
+          - cd ~ && cache restore ruby-$RUBY_VERSEION && cd -
+          - sem-version ruby $RUBY_VERSION
           - cache restore bundler-$(checksum Gemfile.lock)
           - sem-service start postgres
           - sem-service start redis
