@@ -18,7 +18,8 @@ class Mutations::SessionMutations::CreateSessionMutation < Mutations::BaseMutati
 
     {
       user: u,
-      session: session.login
+      session: session.login,
+      errors: []
     }
   rescue ActiveRecord::RecordNotFound, InvalidCredentials
     map_errors({user: "Incorrect e-mail address or password"})
