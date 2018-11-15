@@ -8,4 +8,12 @@ class User < ApplicationRecord
   def authenticate!(unencrypted_password)
     authenticate(unencrypted_password) or raise InvalidCredentials
   end
+
+  def build_session
+    payload = {
+      user_id: id
+    }
+
+    JWTSessions::Session.new(payload: payload, refresh_payload: payload)
+  end
 end

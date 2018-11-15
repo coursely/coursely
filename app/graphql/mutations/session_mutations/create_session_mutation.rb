@@ -7,18 +7,11 @@ class Mutations::SessionMutations::CreateSessionMutation < Mutations::BaseMutati
   field :session, Types::SessionTypes::SessionType, null: true
 
   def resolve(user:)
-    u = User.find_by!(email: user.email)
-    u.authenticate!(user.password)
-
-    payload = {
-      user_id: u.id
-    }
-
-    session = JWTSessions::Session.new(payload: payload, refresh_payload: payload)
+    u = User.find_by!(email: user.email).authenticate!(user.password)
 
     {
       user: u,
-      session: session.login,
+      session: u.build_session.login,
       errors: []
     }
   rescue ActiveRecord::RecordNotFound, InvalidCredentials
