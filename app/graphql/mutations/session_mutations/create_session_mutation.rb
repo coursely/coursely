@@ -1,6 +1,4 @@
-require Rails.root.join("lib", "errors")
-
-class Mutations::SessionMutations::CreateSessionMutation < Mutations::BaseMutation
+class Mutations::SessionMutations::CreateSessionMutation < Mutations::UnauthorizedMutation
   argument :user, Types::SessionTypes::CreateSessionType, required: true
 
   field :user, Types::UserTypes::UserType, null: true

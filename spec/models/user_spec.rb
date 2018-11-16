@@ -1,4 +1,5 @@
-require 'rails_helper'
+require "rails_helper"
+require Rails.root.join("lib", "errors")
 
 RSpec.describe User, type: :model do
   let(:user) { FactoryBot.build :user, password: nil }

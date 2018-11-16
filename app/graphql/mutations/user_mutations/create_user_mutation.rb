@@ -1,4 +1,4 @@
-class Mutations::UserMutations::CreateUserMutation < Mutations::BaseMutation
+class Mutations::UserMutations::CreateUserMutation < Mutations::UnauthorizedMutation
   argument :user, Types::UserTypes::CreateUserType, required: true
 
   field :user, Types::UserTypes::UserType, null: true

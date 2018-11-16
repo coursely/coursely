@@ -1,7 +1,9 @@
 require "rails_helper"
+require "support/mutations/unauthorized_mutation_examples"
 
 RSpec.describe Mutations::UserMutations::CreateUserMutation do
   let(:password_confirmation) { user.password }
+  let(:user) { FactoryBot.build :user }
   let(:context) { {} }
   let(:variables) { { user: user.as_json(only: [:name, :email]).merge({ password: user.password, passwordConfirmation: password_confirmation }) } }
   let(:query_string) { <<~GRAPHQL }
@@ -21,10 +23,9 @@ RSpec.describe Mutations::UserMutations::CreateUserMutation do
   GRAPHQL
 
   subject { CourselySchema.execute(query_string, context: context, variables: variables).to_h }
+  it_behaves_like "an unauthorized mutation", "createUser"
 
   context "a valid user" do
-    let(:user) { FactoryBot.build :user }
-
     it { is_expected.to match "data" => {
         "createUser" => {
           "user" => {
@@ -55,7 +56,6 @@ RSpec.describe Mutations::UserMutations::CreateUserMutation do
   end
 
   context "an invalid password confirmation" do
-    let(:user) { FactoryBot.build :user }
     let(:password_confirmation) { user.password.reverse }
 
     it { is_expected.to match "data" => {

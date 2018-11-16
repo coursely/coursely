@@ -1,6 +1,8 @@
 require "rails_helper"
+require "support/mutations/unauthorized_mutation_examples"
 
 RSpec.describe Mutations::SessionMutations::CreateSessionMutation do
+  let(:user) { FactoryBot.create :user }
   let(:context) { {} }
   let(:variables) { { user: { email: user.email, password: user.password } } }
   let(:query_string) { <<~GRAPHQL }
@@ -27,10 +29,9 @@ RSpec.describe Mutations::SessionMutations::CreateSessionMutation do
   GRAPHQL
 
   subject { CourselySchema.execute(query_string, context: context, variables: variables).to_h }
+  it_behaves_like "an unauthorized mutation", "createSession"
 
   context "valid credentials" do
-    let(:user) { FactoryBot.create :user }
-
     it { is_expected.to match "data" => {
       "createSession" => {
         "user" => {
