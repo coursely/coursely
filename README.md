@@ -8,7 +8,8 @@
 ### Requirements
 
 - Ruby 2.5.3
-- PostgreSQL 10
+- PostgreSQL 10+ (e.g. [Postgres.app][])
+- Redis 5+ (e.g. `brew install redis && brew services start redis`)
 
 ### Usage
 
@@ -30,3 +31,5 @@ Copyright © 2018 Jesse B. Hannah. Licensed under the terms of the GNU Affero
 General Public License (GNU AGPL) version 3 or later (see [LICENSE](LICENSE)).
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcoursely%2Fcoursely.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcoursely%2Fcoursely?ref=badge_large)
+
+[postgres.app]: https://postgresapp.com/
