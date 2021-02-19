@@ -64,7 +64,7 @@ GEM
     ffi (1.9.25)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
-    graphql (1.8.11)
+    graphql (1.12.5)
     i18n (1.1.1)
       concurrent-ruby (~> 1.0)
     listen (3.1.5)
@@ -177,7 +177,7 @@ DEPENDENCIES
   database_cleaner (~> 1.7)
   debase (>= 0.2.3.beta2)
   factory_bot_rails
-  graphql (~> 1.8)
+  graphql (~> 1.12)
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)
